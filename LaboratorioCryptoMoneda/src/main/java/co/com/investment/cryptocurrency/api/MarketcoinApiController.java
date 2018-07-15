@@ -1,6 +1,11 @@
 package co.com.investment.cryptocurrency.api;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +55,9 @@ public class MarketcoinApiController implements MarketcoinApi {
 
     public ResponseEntity<List<CryptoCurrency>> searchCryptoCurrencies(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand and his cryptocurrencies",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");
+        getCryptoCurrencyList();
+        
+        
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<CryptoCurrency>>(objectMapper.readValue("[ {  \"name\" : \"Bitcoin\",  \"valueInDollar\" : 25.0}, {  \"name\" : \"Bitcoin\",  \"valueInDollar\" : 25.0} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
@@ -59,8 +67,17 @@ public class MarketcoinApiController implements MarketcoinApi {
             }
         }
 
-        return new ResponseEntity<List<CryptoCurrency>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<CryptoCurrency>>(HttpStatus.OK);
     }
+
+	public void getCryptoCurrencyList() {
+		List<CryptoCurrency> cryptoCurrencyList = new ArrayList<CryptoCurrency>();
+        CryptoCurrency cryptoCurrency = new CryptoCurrency();
+        cryptoCurrency.setName("Git Commit Message");
+        BigDecimal valueInDollar = new  BigDecimal(25000);
+		cryptoCurrency.setValueInDollar(valueInDollar);
+		cryptoCurrencyList.add(cryptoCurrency);
+	}
 
     public ResponseEntity<List<MarketCoin>> searchMarketCoin(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit) {
         String accept = request.getHeader("Accept");

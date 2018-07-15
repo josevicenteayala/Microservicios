@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Api(value = "marketcoin", description = "the marketcoin API")
+@RequestMapping("/marketcoin")
 public interface MarketcoinApi {
 
     @ApiOperation(value = "adds a cryptocurrency to marketcoin item", nickname = "addCryptoCurrencyToMarketCoin", notes = "Adds a cryptocurrency to marketcoin", tags={ "investor", })
@@ -34,7 +35,7 @@ public interface MarketcoinApi {
         @ApiResponse(code = 201, message = "Marketcoin created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "an existing marketcoin already exists") })
-    @RequestMapping(value = "/marketcoin/{idMarketCoin}/cryptocurrencies",
+    @RequestMapping(value = "/{idMarketCoin}/cryptocurrencies",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -46,7 +47,7 @@ public interface MarketcoinApi {
         @ApiResponse(code = 201, message = "Marketcoin created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "an existing marketcoin already exists") })
-    @RequestMapping(value = "/marketcoin/{idMarketCoin}",
+    @RequestMapping(value = "/{idMarketCoin}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -57,7 +58,7 @@ public interface MarketcoinApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = CryptoCurrency.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "bad input parameter") })
-    @RequestMapping(value = "/marketcoin/{idMarketCoin}/cryptocurrencies",
+    @RequestMapping(value = "/{idMarketCoin}/cryptocurrencies",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.GET)
@@ -68,7 +69,7 @@ public interface MarketcoinApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = MarketCoin.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "bad input parameter") })
-    @RequestMapping(value = "/marketcoin/{idMarketCoin}",
+    @RequestMapping(value = "/{idMarketCoin}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.GET)

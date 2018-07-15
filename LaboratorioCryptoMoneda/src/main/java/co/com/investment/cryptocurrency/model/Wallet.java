@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "This is the main object to manage all cryptocurrencies")
 @Validated
 
-public class Wallet   {
+public class Wallet extends ResourceSupport {
   @JsonProperty("idWallet")
   private String idWallet = null;
 

@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "it is the company that let the investor to sell/buy cryptocurrencies and get his own wallet")
 @Validated
 
-public class MarketCoin   {
+public class MarketCoin  extends ResourceSupport{
   @JsonProperty("idMarketCoin")
   private Integer idMarketCoin = null;
 
