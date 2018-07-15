@@ -1,0 +1,375 @@
+---
+swagger: "2.0"
+info:
+  description: API that let to do an investment in Cryptocurrency
+  version: 1.0.0
+  title: Investment cryptocurrency API
+  contact:
+    email: vin001@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /vin001gmailcom/InversionCriptoMoneda/1.0.0
+tags:
+- name: investor
+  description: This is the stakeholder that makes the investment
+schemes:
+- https
+paths:
+  /marketcoin/{idMarketCoin}:
+    get:
+      tags:
+      - investor
+      summary: searches an specific marketcoin brand
+      description: |
+        By passing in the appropriate options, you can search for
+        available marketcoin in the system
+      operationId: searchMarketCoin
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: idMarketCoin
+        in: path
+        description: pass a mandatory search id for looking up the marketcoin brand
+        required: true
+        type: string
+      - name: skip
+        in: query
+        description: number of records to skip for pagination
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        type: integer
+        maximum: 50.0
+        minimum: 0
+        format: int32
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MarketCoin'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/MarketCoin'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - investor
+      summary: adds an marketcoin item
+      description: Adds an marketcoin to the system
+      operationId: addMarketCoin
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: idMarketCoin
+        in: path
+        description: Market coin to add
+        required: true
+        type: string
+      - in: body
+        name: marketCoin
+        description: Marketcoin to create
+        required: false
+        schema:
+          $ref: '#/definitions/MarketCoin'
+      responses:
+        201:
+          description: Marketcoin created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing marketcoin already exists
+  /marketcoin/{idMarketCoin}/cryptocurrencies:
+    get:
+      tags:
+      - investor
+      summary: searches all currencies that the marketcoin offers
+      description: |
+        By passing in the appropriate options, you can search for
+        available  cryptocurrencies on marketcoin
+      operationId: searchCryptoCurrencies
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: idMarketCoin
+        in: path
+        description: pass a mandatory search id for looking up the marketcoin brand and his cryptocurrencies
+        required: true
+        type: string
+      - name: skip
+        in: query
+        description: number of records to skip for pagination
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        type: integer
+        maximum: 50.0
+        minimum: 0
+        format: int32
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CryptoCurrency'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/CryptoCurrency'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - investor
+      summary: adds a cryptocurrency to marketcoin item
+      description: Adds a cryptocurrency to marketcoin
+      operationId: addCryptoCurrencyToMarketCoin
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: idMarketCoin
+        in: path
+        description: Market coin to add the cryptocurrency
+        required: true
+        type: string
+      - in: body
+        name: marketCoin
+        description: Marketcoin to create
+        required: false
+        schema:
+          $ref: '#/definitions/CryptoCurrency'
+      responses:
+        201:
+          description: Marketcoin created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing marketcoin already exists
+  /wallet/{idWallet}:
+    get:
+      tags:
+      - investor
+      summary: searches an specific wallet
+      description: |
+        By passing in the appropriate options, you can search for
+        available wallet in the system
+      operationId: searchWallet
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: idWallet
+        in: path
+        description: pass a mandatory search id for looking up the wallet
+        required: true
+        type: string
+      - name: skip
+        in: query
+        description: number of records to skip for pagination
+        required: false
+        type: integer
+        minimum: 0
+        format: int32
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        type: integer
+        maximum: 50.0
+        minimum: 0
+        format: int32
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Wallet'
+          responseSchema:
+            type: array
+            items:
+              $ref: '#/definitions/Wallet'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - investor
+      summary: adds a wallet item
+      description: Adds a wallet to the system
+      operationId: addWallet
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: idWallet
+        in: path
+        description: Wallet to add
+        required: true
+        type: string
+      - in: body
+        name: wallet
+        description: Wallet to create
+        required: false
+        schema:
+          $ref: '#/definitions/Wallet'
+      responses:
+        201:
+          description: Wallet created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: a wallet already exists
+definitions:
+  MarketCoin:
+    type: object
+    required:
+    - cryptoCurrencyList
+    - idMarketCoin
+    - name
+    - walletList
+    properties:
+      idMarketCoin:
+        type: integer
+        example: 200
+        description: unique id from the market
+      name:
+        type: string
+        example: Digital Currency Investment
+        description: name of the company
+      cryptoCurrencyList:
+        type: array
+        description: list of cryptocurrencies with ones it is possible to make transactions
+        items:
+          $ref: '#/definitions/CryptoCurrency'
+      walletList:
+        type: array
+        description: list of kind of wallets tha the market offer
+        items:
+          $ref: '#/definitions/Wallet'
+    description: it is the company that let the investor to sell/buy cryptocurrencies and get his own wallet
+    example:
+      cryptoCurrencyList:
+      - name: Bitcoin
+        valueInDollar: 25.0
+      - name: Bitcoin
+        valueInDollar: 25.0
+      walletList:
+      - owner: Boundary Limit Investor
+        privateKey: 12346W4646eqweeeeee3wqew7898665
+        idWallet: we459893r66asd65srsd65sdrser65fdds
+        currencyInvestment:
+        - ammountOfCryptoCurrency: 2.8
+          cryptoCurrency:
+            name: Bitcoin
+            valueInDollar: 25.0
+        - ammountOfCryptoCurrency: 2.8
+          cryptoCurrency:
+            name: Bitcoin
+            valueInDollar: 25.0
+      - owner: Boundary Limit Investor
+        privateKey: 12346W4646eqweeeeee3wqew7898665
+        idWallet: we459893r66asd65srsd65sdrser65fdds
+        currencyInvestment:
+        - ammountOfCryptoCurrency: 2.8
+          cryptoCurrency:
+            name: Bitcoin
+            valueInDollar: 25.0
+        - ammountOfCryptoCurrency: 2.8
+          cryptoCurrency:
+            name: Bitcoin
+            valueInDollar: 25.0
+      name: Digital Currency Investment
+      idMarketCoin: 200
+  CryptoCurrency:
+    required:
+    - name
+    - valueInDollar
+    properties:
+      name:
+        type: string
+        example: Bitcoin
+        description: cryptocurrency name
+      valueInDollar:
+        type: number
+        example: 25.0
+        description: equivalent to dollar money
+    description: it is the main subject to interchange between monetary transactions
+    example:
+      name: Bitcoin
+      valueInDollar: 25.0
+  Wallet:
+    required:
+    - currencyInvestment
+    - idWallet
+    - owner
+    properties:
+      idWallet:
+        type: string
+        example: we459893r66asd65srsd65sdrser65fdds
+        description: nique identifier of the wallet
+      owner:
+        type: string
+        example: Boundary Limit Investor
+        description: persona that is owner of wallet
+      privateKey:
+        type: string
+        example: 12346W4646eqweeeeee3wqew7898665
+        description: secret key to create the ledger
+      currencyInvestment:
+        type: array
+        items:
+          $ref: '#/definitions/CurrencyInvestment'
+    description: This is the main object to manage all cryptocurrencies
+    example:
+      owner: Boundary Limit Investor
+      privateKey: 12346W4646eqweeeeee3wqew7898665
+      idWallet: we459893r66asd65srsd65sdrser65fdds
+      currencyInvestment:
+      - ammountOfCryptoCurrency: 2.8
+        cryptoCurrency:
+          name: Bitcoin
+          valueInDollar: 25.0
+      - ammountOfCryptoCurrency: 2.8
+        cryptoCurrency:
+          name: Bitcoin
+          valueInDollar: 25.0
+  CurrencyInvestment:
+    properties:
+      ammountOfCryptoCurrency:
+        type: number
+        example: 2.8
+        description: ammount of specific cryptocurrency
+      cryptoCurrency:
+        $ref: '#/definitions/CryptoCurrency'
+    description: ammount of cryptocurrency
+    example:
+      ammountOfCryptoCurrency: 2.8
+      cryptoCurrency:
+        name: Bitcoin
+        valueInDollar: 25.0
