@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Implementation-Title: swagger-spring
 Implementation-Version: 1.0.0
 Built-By: Asus
-Implementation-Vendor-Id: io.swagger
+Implementation-Vendor-Id: co.com.investment.cryptocurrency
 Build-Jdk: 1.8.0_162
 Implementation-URL: http://projects.spring.io/spring-boot/investmentCu
  rrrencyAPI/
