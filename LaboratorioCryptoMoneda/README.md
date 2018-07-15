@@ -1,7 +1,7 @@
 # Team Members
-Stefanny Gómez Arias
-Marcela Ocampo
-Miguel Zuleta
+Stefanny Gómez Arias,
+Marcela Ocampo,
+Miguel Zuleta,
 José Vicente Ayala Luna
 
 # Swagger generated server
