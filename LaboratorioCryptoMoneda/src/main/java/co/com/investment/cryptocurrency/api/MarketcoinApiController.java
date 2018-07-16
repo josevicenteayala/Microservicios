@@ -87,7 +87,7 @@ public class MarketcoinApiController implements MarketcoinApi {
 		while(iterator.hasNext()) {
 			MarketCoin marketCoin = iterator.next();
 			marketCoin.removeLinks();
-			marketCoin.add(linkTo(MarketCoin.class).slash(marketCoin.getIdMarketCoin()).withSelfRel());
+			marketCoin.add(linkTo(MarketcoinApi.class).slash(marketCoin.getIdMarketCoin()).withSelfRel());
 			ResponseEntity<List<CryptoCurrency>> linkBuilder = methodOn(MarketcoinApiController.class).searchCryptoCurrencies(marketCoin.getIdMarketCoin().toString(),10,10);
 			Link allCryptoCurrenciesFromMarketCoin = linkTo(linkBuilder).withRel("All Cryptocurrencies from this market coin");
 			marketCoin.add(allCryptoCurrenciesFromMarketCoin);
