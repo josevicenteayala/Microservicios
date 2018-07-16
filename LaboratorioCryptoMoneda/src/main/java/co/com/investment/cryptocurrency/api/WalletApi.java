@@ -46,7 +46,6 @@ public interface WalletApi {
         @ApiResponse(code = 400, message = "bad input parameter") })
     @RequestMapping(value = "/wallet/{idWallet}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<Wallet>> searchWallet(@ApiParam(value = "pass a mandatory search id for looking up the wallet",required=true) @PathVariable("idWallet") String idWallet,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit);
 

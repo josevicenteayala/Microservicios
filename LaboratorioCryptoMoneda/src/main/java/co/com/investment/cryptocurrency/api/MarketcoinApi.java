@@ -54,13 +54,22 @@ public interface MarketcoinApi {
     ResponseEntity<Void> addMarketCoin(@ApiParam(value = "Market coin to add",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody MarketCoin marketCoin);
 
 
+    @ApiOperation(value = "searches a specific currency that the marketcoin offers", nickname = "searchCryptoCurrency", notes = "By passing in the appropriate options, you can search one cryptocurrency on marketcoin ", response = CryptoCurrency.class, responseContainer = "CryptoCurrency", tags={ "investor", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "search results matching criteria", response = CryptoCurrency.class, responseContainer = "CryptoCurrency"),
+        @ApiResponse(code = 400, message = "bad input parameter") })
+    @RequestMapping(value = "/cryptocurrency/{cryptoCurrencyName}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<CryptoCurrency> searchCryptoCurrency(@ApiParam(value = "pass a mandatory cryptocurrency name to find the coin ",required=true) @PathVariable("cryptoCurrencyName") String cryptoCurrencyName);
+ 
+
     @ApiOperation(value = "searches all currencies that the marketcoin offers", nickname = "searchCryptoCurrencies", notes = "By passing in the appropriate options, you can search for available  cryptocurrencies on marketcoin ", response = CryptoCurrency.class, responseContainer = "List", tags={ "investor", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = CryptoCurrency.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "bad input parameter") })
     @RequestMapping(value = "/{idMarketCoin}/cryptocurrencies",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<CryptoCurrency>> searchCryptoCurrencies(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand and his cryptocurrencies",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit);
 
@@ -71,8 +80,17 @@ public interface MarketcoinApi {
         @ApiResponse(code = 400, message = "bad input parameter") })
     @RequestMapping(value = "/{idMarketCoin}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<List<MarketCoin>> searchMarketCoin(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<MarketCoin> searchMarketCoin(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand",required=true) @PathVariable("idMarketCoin") String idMarketCoin);
+    
+    
+    @ApiOperation(value = "searches all marketcoins", nickname = "searchAllMarketCoins", notes = "Return all available marketcoins in the system ", response = MarketCoin.class, responseContainer = "List", tags={ "investor", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "search results matching criteria", response = MarketCoin.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "bad input parameter") })
+    @RequestMapping(value = "/",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<MarketCoin>> searchAllMarketCoins();  
 
 }
