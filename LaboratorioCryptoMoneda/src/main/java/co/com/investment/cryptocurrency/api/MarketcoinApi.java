@@ -35,11 +35,12 @@ public interface MarketcoinApi {
         @ApiResponse(code = 201, message = "Marketcoin created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "an existing marketcoin already exists") })
-    @RequestMapping(value = "/{idMarketCoin}/cryptocurrencies",
+    @RequestMapping(value = "/{idMarketCoin}/addCryptoCurrency",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addCryptoCurrencyToMarketCoin(@ApiParam(value = "Market coin to add the cryptocurrency",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody CryptoCurrency marketCoin);
+    ResponseEntity<CryptoCurrency> addCryptoCurrencyToMarketCoin(@ApiParam(value = "Market coin to add the cryptocurrency",required=true) @PathVariable("idMarketCoin") String idMarketCoin,
+    		@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody CryptoCurrency cryptoCurrency);
 
 
     @ApiOperation(value = "adds an marketcoin item", nickname = "addMarketCoin", notes = "Adds an marketcoin to the system", tags={ "investor", })
@@ -47,11 +48,12 @@ public interface MarketcoinApi {
         @ApiResponse(code = 201, message = "Marketcoin created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "an existing marketcoin already exists") })
-    @RequestMapping(value = "/{idMarketCoin}",
+    @RequestMapping(value = "/{idMarketCoin}/addMarketCoin",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addMarketCoin(@ApiParam(value = "Market coin to add",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody MarketCoin marketCoin);
+    ResponseEntity<MarketCoin> addMarketCoin(@ApiParam(value = "Market coin to add",required=true) @PathVariable("idMarketCoin") String idMarketCoin,
+    		@ApiParam(value = "Marketcoin to create",required=true)  @Valid @RequestBody(required=true) MarketCoin marketCoin);
 
 
     @ApiOperation(value = "searches a specific currency that the marketcoin offers", nickname = "searchCryptoCurrency", notes = "By passing in the appropriate options, you can search one cryptocurrency on marketcoin ", response = CryptoCurrency.class, responseContainer = "CryptoCurrency", tags={ "investor", })

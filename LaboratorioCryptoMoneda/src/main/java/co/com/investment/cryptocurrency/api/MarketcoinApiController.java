@@ -33,6 +33,16 @@ import io.swagger.annotations.ApiParam;
 @Controller
 public class MarketcoinApiController implements MarketcoinApi {
 
+	private static final String ALL_CRYPTOCURRENCIES_FROM_THIS_MARKET_COIN = "All Cryptocurrencies from this market coin";
+
+	private static final String MARKET_COIN_NOT_ADDED_SUCCESSFULLY = "MarketCoin not added successfully";
+
+	private static final String MARKET_COIN_ADDED_SUCCESSFULLY = "MarketCoin added successfully";
+
+	private static final String CRYPTO_CURRENCY_ADDED_SUCCESSFULLY = "CryptoCurrency added successfully";
+
+	private static final String CRYPTO_CURRENCY_NOT_ADDED_SUCCESSFULLY = "CryptoCurrency not added successfully";
+	
 	private static final String LSIT_OF_MARKET_COINS = "Lsit of market coins";
 
 	private static final String MARKET_COINS = "MarketCoins";
@@ -70,18 +80,45 @@ public class MarketcoinApiController implements MarketcoinApi {
 		cryptoCurrencyList = dataBaseSimulator.getCryptoCurrencyList();
 	}
 
-	public ResponseEntity<Void> addCryptoCurrencyToMarketCoin(
+	public ResponseEntity<CryptoCurrency> addCryptoCurrencyToMarketCoin(
 			@ApiParam(value = "Market coin to add the cryptocurrency", required = true) @PathVariable("idMarketCoin") String idMarketCoin,
-			@ApiParam(value = "Marketcoin to create") @Valid @RequestBody CryptoCurrency marketCoin) {
-		String accept = request.getHeader("Accept");
-		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+			@ApiParam(value = "Marketcoin to create") @Valid @RequestBody CryptoCurrency cryptoCurrency) {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setExpires(ONE_SECOND);
+		ResponseEntity<CryptoCurrency> responseEntity = null;
+		if(dataBaseSimulator.addCryptoCurrencyToMarketCoin(idMarketCoin, cryptoCurrency)) {
+			httpHeaders.set(CRYPTO_CURRENCY, CRYPTO_CURRENCY_ADDED_SUCCESSFULLY);
+			Link cryptoCurrencyLink = linkTo(CryptoCurrencyApi.class).slash(cryptoCurrency.getName()).withSelfRel();
+			cryptoCurrency.add(cryptoCurrencyLink);
+			responseEntity = new ResponseEntity<CryptoCurrency>(cryptoCurrency,httpHeaders,HttpStatus.OK);
+		}else {
+			httpHeaders.set(CRYPTO_CURRENCY, CRYPTO_CURRENCY_NOT_ADDED_SUCCESSFULLY);
+			responseEntity = new ResponseEntity<CryptoCurrency>(httpHeaders,HttpStatus.NOT_MODIFIED);
+		}
+		return responseEntity;
 	}
 
-	public ResponseEntity<Void> addMarketCoin(
+	public ResponseEntity<MarketCoin> addMarketCoin(
 			@ApiParam(value = "Market coin to add", required = true) @PathVariable("idMarketCoin") String idMarketCoin,
-			@ApiParam(value = "Marketcoin to create") @Valid @RequestBody MarketCoin marketCoin) {
-		String accept = request.getHeader("Accept");
-		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+			@ApiParam(value = "Marketcoin to create", required=true) @Valid @RequestBody(required=true) MarketCoin marketCoin) {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setExpires(ONE_SECOND);
+		ResponseEntity<MarketCoin> responseEntity = null;
+		MarketCoin marketCoinAdded = dataBaseSimulator.addMarketCoin(idMarketCoin, marketCoin);
+		if(Objects.nonNull(marketCoinAdded)) {
+			httpHeaders.set(MARKET_COIN, MARKET_COIN_ADDED_SUCCESSFULLY);
+			marketCoinAdded.removeLinks();
+			marketCoinAdded.add(linkTo(MarketcoinApi.class).slash(marketCoinAdded.getIdMarketCoin()).withSelfRel());
+			ResponseEntity<List<CryptoCurrency>> linkBuilder = methodOn(MarketcoinApiController.class)
+					.searchCryptoCurrencies(marketCoinAdded.getIdMarketCoin().toString(), 10, 10);
+			Link allCryptoCurrenciesFromMarketCoin = linkTo(linkBuilder).withRel(ALL_CRYPTOCURRENCIES_FROM_THIS_MARKET_COIN);
+			marketCoinAdded.add(allCryptoCurrenciesFromMarketCoin);
+			responseEntity = new ResponseEntity<MarketCoin>(marketCoinAdded,httpHeaders,HttpStatus.OK);
+		}else {
+			httpHeaders.set(MARKET_COIN, MARKET_COIN_NOT_ADDED_SUCCESSFULLY);
+			responseEntity = new ResponseEntity<MarketCoin>(marketCoin,httpHeaders,HttpStatus.NOT_MODIFIED);
+		}
+		return responseEntity;
 	}
 
 	@Override
@@ -94,8 +131,7 @@ public class MarketcoinApiController implements MarketcoinApi {
 			marketCoin.add(linkTo(MarketcoinApi.class).slash(marketCoin.getIdMarketCoin()).withSelfRel());
 			ResponseEntity<List<CryptoCurrency>> linkBuilder = methodOn(MarketcoinApiController.class)
 					.searchCryptoCurrencies(marketCoin.getIdMarketCoin().toString(), 10, 10);
-			Link allCryptoCurrenciesFromMarketCoin = linkTo(linkBuilder)
-					.withRel("All Cryptocurrencies from this market coin");
+			Link allCryptoCurrenciesFromMarketCoin = linkTo(linkBuilder).withRel(ALL_CRYPTOCURRENCIES_FROM_THIS_MARKET_COIN);
 			marketCoin.add(allCryptoCurrenciesFromMarketCoin);
 		}
 		HttpHeaders httpHeaders = new HttpHeaders();

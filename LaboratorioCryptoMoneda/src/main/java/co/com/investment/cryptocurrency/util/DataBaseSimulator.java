@@ -51,6 +51,7 @@ enum CRYPTOCURRENCY{
 @Service
 public class DataBaseSimulator {
 	
+	private static final boolean CRYPTO_CURRENCY_EXIST = true;
 	private static DataBaseSimulator  dataBaseSimulator;
 	private List<CryptoCurrency> cryptoCurrencyList;
 	private List<MarketCoin> marketCoinList;
@@ -141,6 +142,38 @@ public class DataBaseSimulator {
 		}
 		return null;
 	}
+	
+	/**
+	 * @param idMarketCoin
+	 * @param cryptoCurrency
+	 * @return a boolean if the operation was successfully
+	 */
+	public boolean addCryptoCurrencyToMarketCoin(String idMarketCoin, CryptoCurrency cryptoCurrency) {
+		MarketCoin marketCoin = getMarketCoin(idMarketCoin);
+		List<CryptoCurrency> cryptoCurrencyList = marketCoin.getCryptoCurrencyList();
+		Iterator<CryptoCurrency> iterator = cryptoCurrencyList.iterator();
+		while(iterator.hasNext()) {
+			CryptoCurrency actualCryptoCurrency = iterator.next();
+			if(actualCryptoCurrency.getName().equals(cryptoCurrency.getName())) {
+				return CRYPTO_CURRENCY_EXIST;
+			}
+		}
+		return marketCoin.getCryptoCurrencyList().add(cryptoCurrency);
+	}
+	
+	/**
+	 * @param idMarketCoin
+	 * @param marketCoin
+	 * @return MarketCoin ceated or finded
+	 */
+	public MarketCoin addMarketCoin (String idMarketCoin, MarketCoin marketCoin) {
+		MarketCoin marketCoinFinded = getMarketCoin(idMarketCoin);
+		if(Objects.isNull(marketCoinFinded)) {
+			marketCoinList.add(marketCoin);
+		}
+		return marketCoin;
+	}
+	
 	/**
 	 * @return the wallet list
 	 */
