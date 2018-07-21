@@ -3,7 +3,6 @@ package co.com.investment.cryptocurrency.util;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -105,7 +104,7 @@ public class DataBaseSimulator {
 	/**
 	 * @return MarketCoin
 	 */
-	public MarketCoin getMarketCoin(String idMarketCoin) {
+	public MarketCoin getMarketCoin(String idMarketCoin) throws CryptocurrencyInvestmentException{
 		if(Objects.nonNull(idMarketCoin)) {
 			List<MarketCoin> marketCoinList = getMarketCoinList();
 			Iterator<MarketCoin> iterator = marketCoinList.iterator();
@@ -116,7 +115,7 @@ public class DataBaseSimulator {
 				}
 			}
 		}
-		return null;
+		throw new CryptocurrencyInvestmentException();
 	}
 	
 	/**
@@ -172,6 +171,66 @@ public class DataBaseSimulator {
 			marketCoinList.add(marketCoin);
 		}
 		return marketCoin;
+	}
+	
+	/**
+	 * Buy crypto currency from another wallet.
+	 *
+	 * @param idMarketCoinSeller the id market coin
+	 * @param walletSellerOwner the wallet owner
+	 * @param cryptoCurrencyName the crypto currency name
+	 * @param ammountToBuy the ammount to buy
+	 */
+	public Wallet buyCryptoCurrency(String idMarketCoinSeller, String idMarketCoinBuyer, String walletSellerOwner,String walletBuyerOwner, String cryptoCurrencyName, BigDecimal ammountToBuy) throws CryptocurrencyInvestmentException {
+		MarketCoin marketCoinSeller = getMarketCoin(idMarketCoinSeller);
+		MarketCoin marketCoinBuyer = getMarketCoin(idMarketCoinBuyer);
+		
+		Wallet sellerWallet = getWalletFromMarketCoin(walletSellerOwner, cryptoCurrencyName, marketCoinSeller);
+		CurrencyInvestment sellerCurrencyInvestment = getCurrencyInvestment(cryptoCurrencyName, sellerWallet);
+		
+		Wallet buyerWallet = getWalletFromMarketCoin(walletBuyerOwner, cryptoCurrencyName, marketCoinBuyer);
+		CurrencyInvestment buyerCurrencyInvestment = getCurrencyInvestment(cryptoCurrencyName,buyerWallet);
+		
+		sellerCurrencyInvestment.substractCryptoCurrency(ammountToBuy);
+		buyerCurrencyInvestment.additionOfCryptoCurrency(ammountToBuy);
+		
+		return buyerWallet;
+	}
+
+	/**
+	 * @param walletSellerOwner
+	 * @param cryptoCurrencyName
+	 * @param marketCoin
+	 * @return a Wallet from a MarketCoin
+	 */
+	public Wallet getWalletFromMarketCoin(String walletSellerOwner, String cryptoCurrencyName,
+			MarketCoin marketCoin) {
+		List<Wallet> walletListFromMarketCoin = marketCoin.getWalletList();
+		Iterator<Wallet> iterator = walletListFromMarketCoin.iterator();
+		while(iterator.hasNext()) {
+			Wallet wallet = iterator.next();
+			if(wallet.getOwner().equals(walletSellerOwner)) {
+				return wallet;
+			}
+		}
+		throw new CryptocurrencyInvestmentException();
+	}
+
+	/**
+	 * @param cryptoCurrencyName
+	 * @param wallet
+	 * @return a CurrencyInvestment with a new investment
+	 */
+	public CurrencyInvestment getCurrencyInvestment(String cryptoCurrencyName, Wallet wallet) {
+		List<CurrencyInvestment> currencyInvestmentList = wallet.getCurrencyInvestment();
+		Iterator<CurrencyInvestment> iteratorCurrencyInvestment = currencyInvestmentList.iterator();
+		while(iteratorCurrencyInvestment.hasNext()) {
+			CurrencyInvestment currencyInvestment = iteratorCurrencyInvestment.next();
+			if(currencyInvestment.getCryptoCurrency().getName().equals(cryptoCurrencyName)) {
+				return currencyInvestment;
+			}
+		}
+		throw new CryptocurrencyInvestmentException();
 	}
 	
 	/**
@@ -233,23 +292,23 @@ public class DataBaseSimulator {
 	 */
 	private String randomPeopleNames() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("Jose Vicente");
-		list.add("Miguel Zuleta");
-		list.add("Marcela Ocampo");
-		list.add("Stefanny Gomez");
-		list.add("George Bush");
-		list.add("Michael Ortega");
-		list.add("Mario Parra");
-		list.add("Alexis Perez");
-		list.add("Maria del Potro");
-		list.add("Oscar Valdez");
-		list.add("Mijito Lindo");
-		list.add("Natalia Madrid");
-		list.add("Robert Jose");
-		list.add("Bernarda Maria");
-		list.add("Juan Delgado");
-		list.add("Pedro Judeo");
-		list.add("Marco Black");
+		list.add("Jose_Vicente");
+		list.add("Miguel_Zuleta");
+		list.add("Marcela_Ocampo");
+		list.add("Stefanny_Gomez");
+		list.add("George_Bush");
+		list.add("Michael_Ortega");
+		list.add("Mario_Parra");
+		list.add("Alexis_Perez");
+		list.add("Maria_del_Potro");
+		list.add("Oscar_Valdez");
+		list.add("Mijito_Lindo");
+		list.add("Natalia_Madrid");
+		list.add("Robert_Jose");
+		list.add("Bernarda_Maria");
+		list.add("Juan_Delgado");
+		list.add("Pedro_Judeo");
+		list.add("Marco_Black");
 
 		CollectionSampler<String> sampler = new CollectionSampler<String>(RandomSource.create(RandomSource.MWC_256),list);
 		String word = sampler.sample();	

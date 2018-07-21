@@ -31,6 +31,24 @@ public class CurrencyInvestment   {
   }
 
   /**
+ * @param ammountOfCryptoCurrency
+ * @return CurrencytInvestment with the new value 
+ */
+public CurrencyInvestment additionOfCryptoCurrency(BigDecimal ammountOfCryptoCurrency) {
+	this.ammountOfCryptoCurrency = this.ammountOfCryptoCurrency.add(ammountOfCryptoCurrency);
+	  return this;
+  }
+
+  /**
+ * @param ammountOfCryptoCurrency
+ * @return CurrencyInvestment with the new value
+ */
+public CurrencyInvestment substractCryptoCurrency(BigDecimal ammountOfCryptoCurrency) {
+	this.ammountOfCryptoCurrency = this.ammountOfCryptoCurrency.subtract(ammountOfCryptoCurrency);
+	  return this;
+  }  
+  
+  /**
    * ammount of specific cryptocurrency
    * @return ammountOfCryptoCurrency
   **/

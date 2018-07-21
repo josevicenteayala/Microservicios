@@ -89,6 +89,6 @@
 		   <groupId>org.apache.commons</groupId>
 		   <artifactId>commons-rng-sampling</artifactId>
 		   <version>1.0</version>
-		</dependency>		       
+		</dependency>
     </dependencies>
 </project>

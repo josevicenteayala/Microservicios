@@ -3,6 +3,7 @@ package co.com.investment.cryptocurrency.api;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +28,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.com.investment.cryptocurrency.model.CryptoCurrency;
+import co.com.investment.cryptocurrency.model.Investment;
 import co.com.investment.cryptocurrency.model.MarketCoin;
+import co.com.investment.cryptocurrency.model.Wallet;
 import co.com.investment.cryptocurrency.util.DataBaseSimulator;
 import io.swagger.annotations.ApiParam;
 
 @Controller
 public class MarketcoinApiController implements MarketcoinApi {
+
+	private static final String INVESTMENT_MAKE_IT = "Investment make it";
+
+	private static final String INVESTMENT = "Investment";
 
 	private static final String ALL_CRYPTOCURRENCIES_FROM_THIS_MARKET_COIN = "All Cryptocurrencies from this market coin";
 
@@ -186,6 +194,16 @@ public class MarketcoinApiController implements MarketcoinApi {
 				responseEntity = new ResponseEntity<CryptoCurrency>(cryptoCurrency, httpHeaders, HttpStatus.OK);
 			}
 		}
+		return responseEntity;
+	}
+
+	@Override
+	public ResponseEntity<Wallet> buyCryptoCurrency(@RequestBody Investment investment) {
+		Wallet wallet = dataBaseSimulator.buyCryptoCurrency(investment.getIdMarketCoinSeller(), investment.getIdMarketCoinBuyer(), investment.getWalletSellerOwner(), investment.getWalletBuyerOwner(), investment.getCryptoCurrencyName(), new BigDecimal(investment.getAmmountToBuy()));
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setExpires(ONE_SECOND);
+		httpHeaders.set(INVESTMENT, INVESTMENT_MAKE_IT);
+		ResponseEntity<Wallet> responseEntity = new ResponseEntity<>(wallet,httpHeaders ,HttpStatus.OK);
 		return responseEntity;
 	}
 
