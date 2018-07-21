@@ -166,8 +166,13 @@ public class DataBaseSimulator {
 	 * @return MarketCoin ceated or finded
 	 */
 	public MarketCoin addMarketCoin (String idMarketCoin, MarketCoin marketCoin) {
-		MarketCoin marketCoinFinded = getMarketCoin(idMarketCoin);
-		if(Objects.isNull(marketCoinFinded)) {
+		boolean createMarketCoin = true;
+		try {
+			getMarketCoin(idMarketCoin);
+			createMarketCoin = false;
+		}catch(CryptocurrencyInvestmentException cuie){
+		}
+		if(createMarketCoin) {
 			marketCoinList.add(marketCoin);
 		}
 		return marketCoin;
