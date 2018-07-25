@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.com.investment.cryptocurrency.model.CryptoCurrency;
+import co.com.investment.cryptocurrency.model.Investment;
 import co.com.investment.cryptocurrency.model.MarketCoin;
+import co.com.investment.cryptocurrency.model.Wallet;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -35,11 +38,12 @@ public interface MarketcoinApi {
         @ApiResponse(code = 201, message = "Marketcoin created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "an existing marketcoin already exists") })
-    @RequestMapping(value = "/{idMarketCoin}/cryptocurrencies",
+    @RequestMapping(value = "/{idMarketCoin}/addCryptoCurrency",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addCryptoCurrencyToMarketCoin(@ApiParam(value = "Market coin to add the cryptocurrency",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody CryptoCurrency marketCoin);
+    ResponseEntity<CryptoCurrency> addCryptoCurrencyToMarketCoin(@ApiParam(value = "Market coin to add the cryptocurrency",required=true) @PathVariable("idMarketCoin") String idMarketCoin,
+    		@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody CryptoCurrency cryptoCurrency);
 
 
     @ApiOperation(value = "adds an marketcoin item", nickname = "addMarketCoin", notes = "Adds an marketcoin to the system", tags={ "investor", })
@@ -47,11 +51,12 @@ public interface MarketcoinApi {
         @ApiResponse(code = 201, message = "Marketcoin created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "an existing marketcoin already exists") })
-    @RequestMapping(value = "/{idMarketCoin}",
+    @RequestMapping(value = "/{idMarketCoin}/addMarketCoin",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addMarketCoin(@ApiParam(value = "Market coin to add",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@ApiParam(value = "Marketcoin to create"  )  @Valid @RequestBody MarketCoin marketCoin);
+    ResponseEntity<MarketCoin> addMarketCoin(@ApiParam(value = "Market coin to add",required=true) @PathVariable("idMarketCoin") String idMarketCoin,
+    		@ApiParam(value = "Marketcoin to create",required=true)  @Valid @RequestBody(required=true) MarketCoin marketCoin);
 
 
     @ApiOperation(value = "searches a specific currency that the marketcoin offers", nickname = "searchCryptoCurrency", notes = "By passing in the appropriate options, you can search one cryptocurrency on marketcoin ", response = CryptoCurrency.class, responseContainer = "CryptoCurrency", tags={ "investor", })
@@ -71,10 +76,14 @@ public interface MarketcoinApi {
     @RequestMapping(value = "/{idMarketCoin}/cryptocurrencies",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<CryptoCurrency>> searchCryptoCurrencies(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand and his cryptocurrencies",required=true) @PathVariable("idMarketCoin") String idMarketCoin,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit);
+    ResponseEntity<List<CryptoCurrency>> searchCryptoCurrencies(@ApiParam(value = "pass a mandatory search id for looking up the marketcoin brand and his cryptocurrencies",required=true) 
+    @PathVariable("idMarketCoin") String idMarketCoin,@Min(0)@ApiParam(value = "number of records to skip for pagination") 
+    @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) 
+    @ApiParam(value = "maximum number of records to return") 
+    @Valid @RequestParam(value = "limit", required = false) Integer limit);
 
 
-    @ApiOperation(value = "searches an specific marketcoin brand", nickname = "searchMarketCoin", notes = "By passing in the appropriate options, you can search for available marketcoin in the system ", response = MarketCoin.class, responseContainer = "List", tags={ "investor", })
+    @ApiOperation(value = "searches an specific marketcoin brand", nickname = "searchMarketCoin", notes = "By passing in the appropriate options, you can search for available marketcoin in the system ", response = MarketCoin.class, responseContainer = "MarketCoin", tags={ "investor", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = MarketCoin.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "bad input parameter") })
@@ -91,6 +100,17 @@ public interface MarketcoinApi {
     @RequestMapping(value = "/",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<MarketCoin>> searchAllMarketCoins();  
-
+    ResponseEntity<List<MarketCoin>> searchAllMarketCoins(); 
+    
+    
+    @ApiOperation(value = "buy a cryptocurrency", nickname = "buyCryptoCurrency", notes = "Return a Wallet with a new investment ", response = Wallet.class, responseContainer = "Wallet", tags={ "investor", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "search results matching criteria", response = Wallet.class, responseContainer = "Wallet"),
+        @ApiResponse(code = 400, message = "bad input parameter") })
+    @RequestMapping(value = "/buyCryptoCurrency",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        method = RequestMethod.POST)
+    ResponseEntity<Wallet> buyCryptoCurrency(
+    		@ApiParam(value = "Identification of MarketCoin seller",required=true)@Valid @RequestBody Investment investment);
 }

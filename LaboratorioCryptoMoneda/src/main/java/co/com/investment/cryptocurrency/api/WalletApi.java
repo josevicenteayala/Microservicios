@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @Api(value = "wallet", description = "the wallet API")
+@RequestMapping("/wallet")
 public interface WalletApi {
 
     @ApiOperation(value = "adds a wallet item", nickname = "addWallet", notes = "Adds a wallet to the system", tags={ "investor", })
@@ -33,7 +34,7 @@ public interface WalletApi {
         @ApiResponse(code = 201, message = "Wallet created"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 409, message = "a wallet already exists") })
-    @RequestMapping(value = "/wallet/{idWallet}",
+    @RequestMapping(value = "/addWallet/{idWallet}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -44,7 +45,7 @@ public interface WalletApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = Wallet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "bad input parameter") })
-    @RequestMapping(value = "/wallet/{idWallet}",
+    @RequestMapping(value = "/searchWallet/{idWallet}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Wallet>> searchWallet(@ApiParam(value = "pass a mandatory search id for looking up the wallet",required=true) @PathVariable("idWallet") String idWallet,@Min(0)@ApiParam(value = "number of records to skip for pagination") @Valid @RequestParam(value = "skip", required = false) Integer skip,@Min(0) @Max(50) @ApiParam(value = "maximum number of records to return") @Valid @RequestParam(value = "limit", required = false) Integer limit);

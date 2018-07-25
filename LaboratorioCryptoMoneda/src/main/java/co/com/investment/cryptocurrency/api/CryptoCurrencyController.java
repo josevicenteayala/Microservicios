@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,7 +35,7 @@ public class CryptoCurrencyController implements CryptoCurrencyApi {
 	}
 
 	@Override
-	public ResponseEntity<CryptoCurrency> searchCryptoCurrencyBySelf(String name) {
+	public ResponseEntity<CryptoCurrency> searchCryptoCurrencyBySelf(@PathVariable("name") String name) {
 		CryptoCurrency cryptoCurrency = dataBaseSimulator.getCryptoCurrency(name);
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setExpires(ONE_SECOND);
@@ -44,7 +45,7 @@ public class CryptoCurrencyController implements CryptoCurrencyApi {
 			responseEntity = new ResponseEntity<>(cryptoCurrency,httpHeaders,HttpStatus.NO_CONTENT);
 		}
 		httpHeaders.set(CURRENCY_FOUND, CRYPTO_CURENCY_FOUND);
-		responseEntity = new ResponseEntity<>(cryptoCurrency,httpHeaders,HttpStatus.NO_CONTENT);		
+		responseEntity = new ResponseEntity<>(cryptoCurrency,httpHeaders,HttpStatus.OK);		
 		return responseEntity;
 	}
 
