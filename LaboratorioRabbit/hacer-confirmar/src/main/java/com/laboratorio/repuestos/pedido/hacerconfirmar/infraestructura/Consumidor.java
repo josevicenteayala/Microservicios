@@ -1,4 +1,4 @@
-package com.laboratorio.repuestos.validadorpedido.infraestructura;
+package com.laboratorio.repuestos.pedido.hacerconfirmar.infraestructura;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class Consumidor implements MessageListener {
     @Override
     public void onMessage(Message message) {
-        String mensaje = new String( message.getBody());
-		System.out.println(mensaje);
+        System.out.println(new String( message.getBody().toString()));
     }
 }

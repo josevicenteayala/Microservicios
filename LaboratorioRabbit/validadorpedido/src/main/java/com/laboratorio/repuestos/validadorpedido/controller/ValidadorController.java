@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ValidadorController {
-    Publicador publicador = new Publicador();
+    private Publicador publicador = new Publicador();
 
     @RequestMapping(method = RequestMethod.POST, value="/validarRepuesto")
     public @ResponseBody
