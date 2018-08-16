@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class Consumidor implements MessageListener {
     @Override
     public void onMessage(Message message) {
-        System.out.println(new String( message.getBody().toString()));
+        String mensaje = new String( message.getBody());
+		System.out.println(mensaje);
     }
 }

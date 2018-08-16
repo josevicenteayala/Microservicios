@@ -20,6 +20,8 @@ public class HacerConfirmarPedidoController {
         publicador.publicarMensaje("exchange.repuesto.pedido",pedido.getTipoSolicitud(),
                 "Pedido solicitado " + pedido.getCodigoConfirmacion() + " valor: " + pedido.getValor());
         
+        publicador.publicarMensaje("exchange.repuesto.pedido","inventario",
+                "Pedido solicitado " + pedido.getCodigoConfirmacion() + " valor: " + pedido.getValor());       
         //se procede a procesa el pedido y a notificar al cliente
         
         publicador.publicarMensaje("exchange.repuesto.pedido","pedido-confirmacion",
