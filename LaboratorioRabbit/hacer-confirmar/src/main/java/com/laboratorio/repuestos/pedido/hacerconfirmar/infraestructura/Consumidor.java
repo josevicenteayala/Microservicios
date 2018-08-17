@@ -1,4 +1,4 @@
-package com.laboratorio.repuestos.validadorpedido.infraestructura;
+package com.laboratorio.repuestos.pedido.hacerconfirmar.infraestructura;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
