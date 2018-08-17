@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26bb01b9-d6e6-4d6c-8685-c2d494be2d94" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../appmovil/src/main/java/com/laboratorio/appmovil/appmovil/infraestructura/Consumidor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../appmovil/src/main/java/com/laboratorio/appmovil/appmovil/infraestructura/RabbitConf.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../validadorpedido/src/main/java/com/laboratorio/repuestos/validadorpedido/controller/ValidadorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../validadorpedido/src/main/java/com/laboratorio/repuestos/validadorpedido/controller/ValidadorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../validadorpedido/src/main/java/com/laboratorio/repuestos/validadorpedido/infraestructura/Consumidor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../validadorpedido/src/main/java/com/laboratorio/repuestos/validadorpedido/infraestructura/Consumidor.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -47,8 +50,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="34" lean-forward="true" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+            <state relative-caret-position="34">
+              <caret line="2" column="40" lean-forward="true" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -427,9 +430,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="width" value="1346" />
-    <option name="height" value="688" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -487,8 +491,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534387036915" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../vehiculos-master/ford" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1534541442075" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../vehiculos-master/motorsoft" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -548,7 +552,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3295082" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5327869" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -575,8 +579,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="34" lean-forward="true" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+        <state relative-caret-position="34">
+          <caret line="2" column="40" lean-forward="true" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
         </state>
       </provider>
     </entry>
