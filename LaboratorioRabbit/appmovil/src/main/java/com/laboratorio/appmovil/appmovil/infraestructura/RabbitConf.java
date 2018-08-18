@@ -10,7 +10,6 @@ public class RabbitConf {
     @Bean
     public ConnectionFactory connectionFactory(){
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("lion.rmq.cloudamqp.com");
-        //cachingConnectionFactory.setPort(5672);
         cachingConnectionFactory.setUsername("cqlouhuq");
         cachingConnectionFactory.setPassword("FDcuxWi7W4p2sTFszIAapA7imaPRXzz7");
         cachingConnectionFactory.setChannelCheckoutTimeout(10000);
