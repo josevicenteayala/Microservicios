@@ -1,13 +1,17 @@
 package com.laboratorio.repuestos.validadorpedido.controller;
 
-import com.laboratorio.repuestos.validadorpedido.infraestructura.Publicador;
-import com.laboratorio.repuestos.validadorpedido.model.Repuesto;
+import java.util.Random;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
-import java.util.Random;
+import com.laboratorio.repuestos.validadorpedido.infraestructura.Publicador;
+import com.laboratorio.repuestos.validadorpedido.model.Repuesto;
 
 @RestController
 public class ValidadorController {
@@ -15,11 +19,11 @@ public class ValidadorController {
 
     @RequestMapping(method = RequestMethod.POST, value="/validarRepuesto")
     public @ResponseBody
-    ResponseEntity<Repuesto> validarRepuesto(@RequestBody Repuesto repuesto){
+    ResponseEntity<String> validarRepuesto(@RequestBody Repuesto repuesto){
 
         publicador.publicarMensaje("exchange.repuesto.validado",repuesto.getTipoSolicitud(),
                 "Repuesto por validar " + repuesto.getIdRepuesto() + " ciudad: " + repuesto.getCiudad());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Repuesto enviado a validar",HttpStatus.OK);
     }
 
     public @ResponseBody
